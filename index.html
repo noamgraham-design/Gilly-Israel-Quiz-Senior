@@ -634,14 +634,15 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 22px 18px;
+    padding: 18px 28px;
     background: var(--surface);
     border-bottom: 1px solid var(--border);
     box-shadow: 0 1px 6px rgba(0,0,0,0.07);
     flex-shrink: 0;
-    gap: 12px;
-    flex-wrap: wrap;
+    gap: 16px;
+    flex-wrap: nowrap;
     position: relative;
+    min-height: 100px;
   }
   #topbar h1 {
     font-family: 'Playfair Display', 'Alef', serif;
@@ -651,24 +652,24 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     white-space: nowrap;
+    flex-shrink: 0;
   }
   #hud {
     display: flex;
     align-items: center;
-    gap: 20px;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+    gap: 24px;
+    margin-left: auto;
+    flex-shrink: 0;
   }
   .hud-block {
     text-align: center;
-    padding: 2px 12px 5px;
+    padding: 8px 28px 12px;
     background: rgba(0,0,0,0.05);
-    border-radius: 10px;
+    border-radius: 14px;
     border: 1px solid rgba(0,0,0,0.08);
   }
-  .hud-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); display: block; font-weight: 600; }
-  .hud-value { font-family: 'Playfair Display', 'Alef', serif; font-size: 1.7rem; font-weight: 900; line-height: 1; }
+  .hud-label { font-size: 1.4rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); display: block; font-weight: 600; }
+  .hud-value { font-family: 'Playfair Display', 'Alef', serif; font-size: 3.4rem; font-weight: 900; line-height: 1; }
   #progress-bar-wrap { min-width: 140px; }
   #progress-bar-bg { height: 5px; background: rgba(255,255,255,0.07); border-radius: 99px; overflow: hidden; }
   #progress-bar-fill { height: 100%; background: linear-gradient(90deg, #58a6ff, #bc8cff); border-radius: 99px; transition: width 0.4s ease; width: 0%; }
@@ -685,16 +686,14 @@
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    position: relative;
   }
   #town-center {
-    position: absolute;
-    left: 50%;
-    transform: translateX(calc(-50% - 60px));
+    flex: 1;
     text-align: center;
+    min-width: 0;
     pointer-events: none;
   }
-  #town-name { font-family: 'Playfair Display', 'Alef', serif; font-size: 4.08rem; font-weight: 900; line-height: 1; background: linear-gradient(90deg, #1a6fd4, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  #town-name { font-family: 'Playfair Display', 'Alef', serif; font-size: 2.6rem; font-weight: 900; line-height: 1; background: linear-gradient(90deg, #1a6fd4, #7c3aed); -webkit-background-clip: text; -webkit-text-fill-color: transparent; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   #town-desc { font-size: 0.95rem; color: var(--muted); font-style: italic; margin-top: 4px; }
   /* Blurred location name shown during street-view preview phase */
   .blurred-location { filter: blur(8px); user-select: none; pointer-events: none; transition: filter 0.4s ease; }
@@ -1103,6 +1102,65 @@
     transition: background 0.15s;
   }
   #fact-modal-close:hover { background: var(--bg); }
+
+  /* CONFIRM LOCATION POPUP */
+  #confirm-popup {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #confirm-box {
+    background: #fff;
+    border-radius: 22px;
+    padding: 52px 64px 44px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    box-shadow: 0 12px 60px rgba(0,0,0,0.35);
+    min-width: 420px;
+    max-width: 90vw;
+  }
+  #confirm-text {
+    font-size: 3rem;
+    font-weight: 900;
+    color: #111;
+    margin: 0;
+    text-align: center;
+    line-height: 1.2;
+    font-family: 'Alef', 'Heebo', sans-serif;
+    letter-spacing: 0.01em;
+  }
+  #confirm-buttons {
+    display: flex;
+    gap: 28px;
+    flex-direction: row-reverse;
+  }
+  #confirm-yes, #confirm-no {
+    font-size: 2rem;
+    font-weight: 800;
+    border: none;
+    border-radius: 14px;
+    padding: 18px 52px;
+    cursor: pointer;
+    font-family: 'Alef', 'Heebo', sans-serif;
+    transition: filter 0.15s, transform 0.1s;
+    min-width: 140px;
+  }
+  #confirm-yes {
+    background: #90ee90;
+    color: #1a4d1a;
+  }
+  #confirm-no {
+    background: #ffb3b3;
+    color: #6b0000;
+  }
+  #confirm-yes:hover { filter: brightness(0.93); transform: scale(1.03); }
+  #confirm-no:hover  { filter: brightness(0.93); transform: scale(1.03); }
 
   /* FEEDBACK TOAST */
   #feedback {
@@ -2138,20 +2196,20 @@
       height: 32px !important;
     }
     
-    /* HUD blocks smaller */
+    /* HUD blocks — scaled for mobile */
     .hud-block {
-      min-width: 44px;
+      min-width: 70px;
       text-align: center;
-      padding: 2px 6px;
+      padding: 4px 14px 8px;
       background: rgba(26,111,212,0.06);
-      border-radius: 8px;
+      border-radius: 10px;
       border: 1px solid rgba(26,111,212,0.12);
     }
     .hud-label {
-      font-size: 0.7rem;
+      font-size: 0.85rem;
     }
     .hud-value {
-      font-size: 1.3rem;
+      font-size: 2rem;
     }
     
     /* Town card adjustments */
@@ -2410,13 +2468,14 @@
     }
     
     .hud-block {
-      min-width: 60px;
+      min-width: 56px;
+      padding: 3px 10px 6px;
     }
     .hud-label {
-      font-size: 0.65rem;
+      font-size: 0.75rem;
     }
     .hud-value {
-      font-size: 1.1rem;
+      font-size: 1.6rem;
     }
     #mobile-topbar-town .mob-town-text {
       font-size: 0.9rem;
@@ -2823,8 +2882,11 @@
       <polygon points="19.0,12.5 24.6,22.2 13.4,22.2" fill="none" stroke="#0038b8" stroke-width="1.6"/>
       <polygon points="19.0,25.5 13.4,15.8 24.6,15.8" fill="none" stroke="#0038b8" stroke-width="1.6"/>
     </svg>
-    <span id="title-text">Gilly's Israel Quiz</span>
   </h1>
+  <div id="town-center">
+    <div id="town-name">—</div>
+    <div id="town-desc">בחר/י רמת קושי והתחל/י את המשחק</div>
+  </div>
   <div id="hud">
     <div class="hud-block">
       <span class="hud-label" id="lbl-round">Round</span>
@@ -2867,10 +2929,6 @@
 <div id="town-card">
   <div style="min-width:260px">
     <button class="btn btn-hint" id="btn-back" onclick="showMenu()" style="display:none">← תפריט</button>
-  </div>
-  <div id="town-center">
-    <div id="town-name">—</div>
-    <div id="town-desc">בחר/י רמת קושי והתחל/י את המשחק</div>
   </div>
   <div id="town-actions">
     <button class="btn btn-hint" id="btn-hint" onclick="useHint()">💡 Hint · 3 left</button>
@@ -2997,6 +3055,17 @@
     <div id="fact-modal-title"></div>
     <div id="fact-modal-body"></div>
     <button id="fact-modal-close" onclick="closeFactModal()">סגור</button>
+  </div>
+</div>
+
+<!-- Confirm-location popup -->
+<div id="confirm-popup" style="display:none">
+  <div id="confirm-box">
+    <p id="confirm-text" dir="rtl">?אתה בטוח</p>
+    <div id="confirm-buttons">
+      <button id="confirm-yes" onclick="confirmLocation()">כן</button>
+      <button id="confirm-no" onclick="cancelLocation()">לא</button>
+    </div>
   </div>
 </div>
 
@@ -3570,7 +3639,7 @@ function toggleLang() {
 
 function applyLang() {
   document.body.dir = 'ltr';
-  document.getElementById('title-text').textContent = t('title');
+  const titleEl = document.getElementById('title-text'); if (titleEl) titleEl.textContent = t('title');
   document.getElementById('overlay-title-text').textContent = t('title');
   document.getElementById('lbl-score').textContent = t('score');
   document.getElementById('lbl-round').textContent = t('round');
@@ -5651,6 +5720,22 @@ function startGame() {
   loadTown();
 }
 
+let _pendingClickEvent = null;
+
+function cancelLocation() {
+  document.getElementById('confirm-popup').style.display = 'none';
+  _pendingClickEvent = null;
+}
+
+function confirmLocation() {
+  document.getElementById('confirm-popup').style.display = 'none';
+  if (_pendingClickEvent) {
+    const e = _pendingClickEvent;
+    _pendingClickEvent = null;
+    processMapClick(e);
+  }
+}
+
 function onMapClick(e) {
   // Ignore clicks that follow a touch-drag (pan/scroll). A stationary tap leaves
   // _touchMoved false; a finger that moved to scroll the map sets it true.
@@ -5663,6 +5748,11 @@ function onMapClick(e) {
   if (waiting) return;
   if (isLearningMode) { handleLearningClick(e); return; }
 
+  _pendingClickEvent = e;
+  document.getElementById('confirm-popup').style.display = 'flex';
+}
+
+function processMapClick(e) {
   haptic(30); // subtle tap on pin placement
 
   const town = sequence[currentIdx];
